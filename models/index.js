@@ -32,6 +32,10 @@ PurchaseCart.belongsToMany(Item)
 Category.hasMany(Item)
 Item.belongsTo(Category)
 
+Order.belongsTo(User, {foreignKey: 'username', as: 'user'}); 
+// Order.belongsTo(Item, {foreignKey: 'item_id', as: 'item'});
+Order.belongsToMany(Item, { through: 'OrderItems' })
+
 module.exports = {
     Item,
     User,
