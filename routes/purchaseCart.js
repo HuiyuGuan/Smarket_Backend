@@ -1,23 +1,65 @@
 const router = require("express").Router();
 const PurchaseCart = require("../models/purchaseCart");
 const database = require("../models/database");
-
+const cartItems = require("../models/CartItems")
 // GET all cart items
-router.get("/", async (req, res) => {
+router.get('/purchaseCarts', async (req, res) => {
+  const { item_id, username } = req.query;
+
   try {
-    const { username } = req.query; // Expecting username as a query parameter
-    if (!username) {
-      return res.status(400).send("Username query parameter is required.");
+    // Check if the item already exists in the purchase cart
+    const cartItem = await PurchaseCart.findOne({
+      where: {
+        item_id: item_id,
+        username: username,
+      },
+    });
+
+    if (cartItem) {
+      res.status(200).json(cartItem);
+    } else {
+      res.status(404).json({ message: 'Item not found in cart' });
     }
-    const purchaseCarts = await PurchaseCart.findAll({ where: { username } });
-    if (!purchaseCarts.length) {
-      return res.status(404).send("No items found for this user.");
-    }
-    res.status(200).json(purchaseCarts);
   } catch (error) {
-    res.status(500).send("Error fetching cart items: " + error.message);
+    res.status(500).json({ error: 'Error checking cart' });
   }
 });
+router.put('/purchaseCarts/:item_id', async (req, res) => {
+  const { item_id } = req.params;
+  const { quantity } = req.body;
+
+  try {
+    const cartItem = await PurchaseCart.findOne({ where: { item_id: item_id } });
+
+    if (cartItem) {
+      cartItem.quantity = quantity;
+      await cartItem.save();  // Save the updated quantity
+      res.status(200).json(cartItem);
+    } else {
+      res.status(404).json({ message: 'Item not found in cart' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Error updating cart item' });
+  }
+});
+router.post('/purchaseCarts', async (req, res) => {
+  const { item_id, username, item_name, item_price, item_image, quantity } = req.body;
+
+  try {
+    const newCartItem = await PurchaseCart.create({
+      item_id,
+      username,
+      item_name,
+      item_price,
+      item_image,
+      quantity,
+    });
+    res.status(201).json(newCartItem);
+  } catch (error) {
+    res.status(500).json({ error: 'Error adding item to cart' });
+  }
+});
+
 // POST a new item to the cart
 // router.post("/", async (req, res) => {
 //   try {
