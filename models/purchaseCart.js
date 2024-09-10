@@ -1,18 +1,26 @@
 const { DataTypes } = require('sequelize');
 const database = require('./database');
+const User = require("./user");
+const Item = require("./item");
 
 const PurchaseCart = database.define('PurchaseCart', {
   username: {
     type: DataTypes.STRING,
     allowNull: false,
     primaryKey: true,  // Part of composite key
+    references: {
+      model: User,  // Foreign key reference to the User model
+      key: 'username',
+    },
+    onDelete: 'CASCADE',  // If user is deleted, delete related purchase carts
+    onUpdate: 'CASCADE',
   },
   item_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,  // Part of composite key
     references: {
-      model: 'Items',  // Foreign key reference to the Items table
+      model: Item,  // Foreign key reference to the Items table
       key: 'item_id',
     },
     onDelete: 'CASCADE',

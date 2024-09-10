@@ -10,8 +10,8 @@ const CartItems = require('./CartItems');
 const OrderItems = require('./OrderItems');
 
 // User and Item Relationship (One-to-Many)
-User.hasMany(Item, { foreignKey: 'username' });  // Specify 'username' as the foreign key
-Item.belongsTo(User, { foreignKey: 'username' });  // Specify 'username' as the foreign key
+User.hasMany(Item, { foreignKey: 'seller' });  // Specify 'username' as the foreign key
+Item.belongsTo(User, { foreignKey: 'seller' });  // Specify 'username' as the foreign key
 
 // User and Order Relationship (One-to-Many)
 User.hasMany(Order, { foreignKey: 'username' });
