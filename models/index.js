@@ -6,44 +6,66 @@ const Category = require('./category');
 const SellingList = require('./selllingList');
 const PurchaseCart = require('./purchaseCart');
 const Feedback = require('./feedback');
+const CartItems = require('./CartItems');
+const OrderItems = require('./OrderItems');
 
+// User and Item Relationship (One-to-Many)
+User.hasMany(Item, { foreignKey: 'seller' });  // Specify 'username' as the foreign key
+Item.belongsTo(User, { foreignKey: 'seller' });  // Specify 'username' as the foreign key
 
-User.hasMany(Item)
-Item.belongsTo(User)
+// User and Order Relationship (One-to-Many)
+User.hasMany(Order, { foreignKey: 'username' });
+Order.belongsTo(User, { foreignKey: 'username' });
 
-User.hasMany(Order)
-Order.belongsTo(User)
+// User and PurchaseCart Relationship (One-to-One)
+User.hasOne(PurchaseCart, { foreignKey: 'username' });
+PurchaseCart.belongsTo(User, { foreignKey: 'username' });
 
-User.hasOne(PurchaseCart)
-PurchaseCart.belongsTo(User)
+// User and Feedback Relationship (One-to-Many)
+User.hasMany(Feedback, { foreignKey: 'username' });
+Feedback.belongsTo(User, { foreignKey: 'username' });
 
-User.hasMany(Feedback)
-Feedback.belongsTo(User)
+// Item and Feedback Relationship (One-to-Many)
+Item.hasMany(Feedback, { foreignKey: 'item_id' });
+Feedback.belongsTo(Item, { foreignKey: 'item_id' });
 
-Item.hasMany(Feedback)
-Feedback.belongsTo(Item)
-//many to many or one to many?
-// Order.hasMany(Item)
-// Item.belongsTo(Order)
+// Item and Category Relationship (One-to-Many)
+Category.hasMany(Item, { foreignKey: 'category_id' });
+Item.belongsTo(Category, { foreignKey: 'category_id' });
 
-Item.belongsToMany(PurchaseCart)
-PurchaseCart.belongsToMany(Item)
+// Item and Order Many-to-Many Relationship via OrderItems
+Item.belongsToMany(Order, {
+  through: OrderItems,
+  foreignKey: 'item_id',  // References item_id in OrderItems
+  otherKey: 'order_id',   // References order_id in OrderItems
+});
+Order.belongsToMany(Item, {
+  through: OrderItems,
+  foreignKey: 'order_id',  // References order_id in OrderItems
+  otherKey: 'item_id',     // References item_id in OrderItems
+});
 
-Category.hasMany(Item)
-Item.belongsTo(Category)
-
-Order.belongsTo(User, {foreignKey: 'username', as: 'user'}); 
-// Order.belongsTo(Item, {foreignKey: 'item_id', as: 'item'});
-Order.belongsToMany(Item, { through: 'OrderItems' })
+// PurchaseCart and Item Many-to-Many Relationship via CartItems
+PurchaseCart.belongsToMany(Item, {
+  through: CartItems,
+  foreignKey: 'username',  // References username in CartItems
+  otherKey: 'item_id',     // References item_id in CartItems
+});
+Item.belongsToMany(PurchaseCart, {
+  through: CartItems,
+  foreignKey: 'item_id',   // References item_id in CartItems
+  otherKey: 'username',    // References username in CartItems
+});
 
 module.exports = {
-    Item,
-    User,
-    database,
-    Order,
-    Category,
-    SellingList,
-    PurchaseCart,
-    Feedback
-
-}
+  Item,
+  User,
+  database,
+  Order,
+  Category,
+  SellingList,
+  PurchaseCart,
+  Feedback,
+  CartItems,
+  OrderItems
+};

@@ -48,8 +48,11 @@ const user = database.define('user' ,{
         allowNull: false,
         notEmpty: true
     }
-});
-
+},
+{
+    tableName: 'users',  // Make sure the table name is correct
+    timestamps: true,
+  });
 // user.generateSalt = function() {
 //     return crypto.randomBytes(16).toString("base64");
 //   };
