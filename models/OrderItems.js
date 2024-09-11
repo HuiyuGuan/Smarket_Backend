@@ -1,36 +1,30 @@
-const { DataTypes } = require('sequelize');
+const Sequelize = require('sequelize');
 const database = require('./database');
 
 const OrderItems = database.define('OrderItems', {
-    order_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'orders',  // Reference to the Orders table
-        key: 'order_id',
-      },
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-      primaryKey: true,
+  order_id: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: 'orders', // Reference to the Order model
+      key: 'order_id'
     },
-    item_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'items',  // Reference to the Items table
-        key: 'item_id',
-      },
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-      primaryKey: true,
+    allowNull: false
+  },
+  item_id: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: 'items', // Reference to the Item model
+      key: 'item_id'
     },
-    quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 1,
-    },
-  }, {
-    tableName: 'OrderItems',
-    timestamps: true,
-  });
+    allowNull: false
+  },
+  quantity: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  }
+}, {
+  timestamps: true,
+  tableName: 'OrderItems'
+});
 
-  module.exports = OrderItems;
-  
+module.exports = OrderItems;
