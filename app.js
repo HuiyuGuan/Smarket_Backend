@@ -15,6 +15,7 @@ const feedbacks = require("./models/feedback");
 const purchaseCart = require("./models/purchaseCart");
 const { pool } = require("pg");
 require("dotenv").config();
+const purchaseCartRoutes = require('./routes/purchaseCart');
 
 // const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const database = require("./models/database");
@@ -50,9 +51,9 @@ app.use("/orders", require("./routes/order"));
 app.use("/category", require("./routes/category"));
 app.use("/sellinglists", require("./routes/sellingList"));
 app.use("/feedbacks", require("./routes/feedback"));
-app.use("/purchaseCarts", require("./routes/purchaseCart"));
+//app.use("/purchaseCart", require("./routes/purchaseCart"));
+app.use(purchaseCartRoutes);
 
-// app.use(
 //     session({
 //       secret: "a super secretive secret key string to encrypt and sign the cookie",
 //       store: sessionStore,

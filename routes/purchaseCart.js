@@ -2,12 +2,11 @@ const router = require("express").Router();
 const PurchaseCart = require("../models/purchaseCart");
 
 // GET all cart items or specific items by item_id and username
+// GET all cart items or specific items by item_id and username
 router.get('/purchaseCarts', async (req, res) => {
-  console.log('GET request received for /purchaseCarts', req.query);
   const { item_id, username } = req.query;
 
   try {
-    // If both item_id and username are provided, find the specific cart item
     if (item_id && username) {
       const cartItem = await PurchaseCart.findOne({ where: { item_id, username } });
 
@@ -18,7 +17,6 @@ router.get('/purchaseCarts', async (req, res) => {
       }
     }
 
-    // If only username is provided, fetch all cart items for that user
     if (username) {
       const cartItems = await PurchaseCart.findAll({ where: { username } });
 
@@ -29,14 +27,8 @@ router.get('/purchaseCarts', async (req, res) => {
       }
     }
 
-    // If no query parameters, return all cart items (for testing)
     const allCartItems = await PurchaseCart.findAll();
-
-    if (allCartItems.length > 0) {
-      return res.status(200).json(allCartItems);
-    } else {
-      return res.status(404).json({ message: 'No items found in cart' });
-    }
+    return res.status(200).json(allCartItems);
 
   } catch (error) {
     return res.status(500).json({ error: 'Error fetching cart items: ' + error.message });
@@ -82,6 +74,40 @@ router.delete("/purchaseCarts/:username/:item_id", async (req, res) => {
     }
   } catch (error) {
     res.status(500).send("Error deleting item from cart: " + error.message);
+  }
+});
+
+// POST route to add an item to the purchase cart
+router.post('/purchaseCarts', async (req, res) => {
+  const { username, item_id, item_name, item_price, item_image, quantity } = req.body;
+
+  try {
+    // Check if the item already exists in the cart for the given user
+    const existingCartItem = await PurchaseCart.findOne({
+      where: { username, item_id }
+    });
+
+    if (existingCartItem) {
+      // If the item already exists, you might want to increase its quantity instead
+      existingCartItem.quantity += quantity;
+      await existingCartItem.save();
+      return res.status(200).json(existingCartItem);
+    }
+
+    // If the item doesn't exist, add it as a new cart item
+    const newCartItem = await PurchaseCart.create({
+      username,
+      item_id,
+      item_name,
+      item_price,
+      item_image,
+      quantity,
+    });
+
+    res.status(201).json(newCartItem);
+  } catch (error) {
+    console.error('Error adding item to cart:', error.message);
+    res.status(500).json({ error: 'Error adding item to cart: ' + error.message });
   }
 });
 
