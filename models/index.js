@@ -45,6 +45,15 @@ Order.belongsToMany(Item, {
   otherKey: 'item_id',     // References item_id in OrderItems
 });
 
+// OrderItems model
+Order.hasMany(OrderItems, { foreignKey: 'order_id', as: 'orderItems' });
+OrderItems.belongsTo(Order, { foreignKey: 'order_id', as: 'orderItems' });
+
+// Item model association with OrderItems
+OrderItems.belongsTo(Item, { foreignKey: 'item_id', as: 'item' });
+Item.hasMany(OrderItems, { foreignKey: 'item_id', as: 'orderItems' });
+
+
 // PurchaseCart and Item Many-to-Many Relationship via CartItems
 PurchaseCart.belongsToMany(Item, {
   through: CartItems,
