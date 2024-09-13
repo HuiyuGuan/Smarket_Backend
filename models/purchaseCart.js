@@ -7,6 +7,7 @@ const PurchaseCart = database.define('PurchaseCart', {
   username: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique:true,
     primaryKey: true,  // Part of composite key
     references: {
       model: User,  // Foreign key reference to the User model

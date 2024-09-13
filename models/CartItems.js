@@ -1,12 +1,14 @@
 const { DataTypes } = require('sequelize');
 const database = require('./database');  // Your Sequelize instance
+const PurchaseCart = require("./purchaseCart");
+const Item = require("./item");
 
 const CartItems = database.define('CartItems', {
   username: {
     type: DataTypes.STRING,
     allowNull: false,
     references: {
-      model: 'purchaseCarts',  // References composite key in purchaseCarts
+      model: PurchaseCart,  // References composite key in purchaseCarts
       key: 'username',
     },
     onDelete: 'CASCADE',
@@ -16,7 +18,7 @@ const CartItems = database.define('CartItems', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'purchaseCarts',  // References composite key in purchaseCarts
+      model: Item,  // References composite key in purchaseCarts
       key: 'item_id',
     },
     onDelete: 'CASCADE',

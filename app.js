@@ -20,6 +20,15 @@ const purchaseCartRoutes = require('./routes/purchaseCart');
 // const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const database = require("./models/database");
 // const sessionStore = new SequelizeStore({ database });
+const sequelize = new Sequelize(process.env.POSTGRES_URL, {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
+});
 
 const app = express();
 
@@ -67,12 +76,12 @@ app.use(purchaseCartRoutes);
 
 app.use("/auth", authRouter);
 
-database.sync().then(() => {
+sequelize.sync({ alter: true }).then(() => {
   app.listen(port, () =>
     console.log(`Serving portmanteau since there were ports ${port}`)
   );
 });
 
-app.get("", (req, res) => {
+app.get("/", (req, res) => {
   res.json({ message: "Routing works" });
 });

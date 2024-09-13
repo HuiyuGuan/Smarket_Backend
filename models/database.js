@@ -1,7 +1,6 @@
 //const { password } = require("pg/lib/defaults");
 const Sequelize = require("sequelize");
 const pkg = require("../package.json");
-
 // const database = new Sequelize(
 //   // postgres://myuser:mypassword@myhost:5432/mydatabasename
 //   process.env.DATABASE_URL ||
@@ -27,14 +26,25 @@ const pkg = require("../package.json");
 //     },
 //   },
 // });
+
 const database_URL =
   process.env.DATABASE_URL ||
-  "postgres://postgres:sql@localhost:5432/capstone_backend?sslmode=disable";
+  "postgres://default:yDU6SXhue8nm@ep-mute-silence-a4s1anlt-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require";
 
 const database = new Sequelize(database_URL, {
   dialect: "postgres",
   logging: false,
 });
+
+// const Sequelize = new Sequelize(process.env.POSTGRES_URL, {
+//   dialect: 'postgres',
+//   dialectOptions: {
+//     ssl: {
+//       require: true,
+//       rejectUnauthorized: false
+//     }
+//   }
+// });
 
 database
   .authenticate()
