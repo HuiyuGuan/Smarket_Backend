@@ -5,7 +5,7 @@ const session = require("express-session");
 const passport = require("passport");
 const authRouter = require("./auth");
 const Sequelize = require("sequelize");
-const port = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 const item = require("./models/item");
 const user = require("./models/user");
 const order = require("./models/order");
@@ -76,12 +76,20 @@ app.use('/purchaseCarts', purchaseCartRoutes);
 
 app.use("/auth", authRouter);
 
-sequelize.sync({ alter: true }).then(() => {
-  app.listen(port, () =>
-    console.log(`Serving portmanteau since there were ports ${port}`)
-  );
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+// sequelize.sync({ alter: true }).then(() => {
+//   app.listen(port, () =>
+//     console.log(`Serving portmanteau since there were ports ${port}`)
+//   );
+// });
 
 app.get("/", (req, res) => {
   res.json({ message: "Routing works" });
 });
+
+module.exports = app;
