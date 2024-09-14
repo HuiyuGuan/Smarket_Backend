@@ -3,6 +3,7 @@ const { Order, PurchaseCart, Item } = require("../models");
 const OrderItems = require("../models/OrderItems");
 const router = express.Router();
 const { Sequelize } = require("sequelize");
+const database = require("../models/database");
 
 // Route to create a new order
 router.post("/create", async (req, res) => {

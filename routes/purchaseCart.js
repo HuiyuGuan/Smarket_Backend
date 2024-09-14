@@ -1,9 +1,8 @@
 const router = require("express").Router();
 const PurchaseCart = require("../models/purchaseCart");
+const database = require("../models/database");
 
-// GET all cart items or specific items by item_id and username
-// GET all cart items or specific items by item_id and username
-router.get('/purchaseCarts', async (req, res) => {
+router.get('/', async (req, res) => {
   const { item_id, username } = req.query;
 
   try {
@@ -37,7 +36,7 @@ router.get('/purchaseCarts', async (req, res) => {
 
 
 // PUT (Update) quantity for a specific item in the cart
-router.put('/purchaseCarts/:username/:item_id', async (req, res) => {
+router.put('/:username/:item_id', async (req, res) => {
   const { username, item_id } = req.params;
   const { quantity } = req.body;
 
@@ -61,7 +60,7 @@ router.put('/purchaseCarts/:username/:item_id', async (req, res) => {
 });
 
 // DELETE an item from the cart using username and item_id
-router.delete("/purchaseCarts/:username/:item_id", async (req, res) => {
+router.delete("/:username/:item_id", async (req, res) => {
   const { username, item_id } = req.params;
 
   try {
@@ -78,7 +77,7 @@ router.delete("/purchaseCarts/:username/:item_id", async (req, res) => {
 });
 
 // POST route to add an item to the purchase cart
-router.post('/purchaseCarts', async (req, res) => {
+router.post('/', async (req, res) => {
   const { username, item_id, item_name, item_price, item_image, quantity } = req.body;
 
   try {

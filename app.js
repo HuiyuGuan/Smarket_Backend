@@ -16,9 +16,9 @@ const purchaseCart = require("./models/purchaseCart");
 const { pool } = require("pg");
 require("dotenv").config();
 const purchaseCartRoutes = require('./routes/purchaseCart');
-
-// const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const database = require("./models/database");
+// const SequelizeStore = require("connect-session-sequelize")(session.Store);
+
 // const sessionStore = new SequelizeStore({ database });
 const sequelize = new Sequelize(process.env.POSTGRES_URL, {
   dialect: 'postgres',
@@ -60,8 +60,8 @@ app.use("/orders", require("./routes/order"));
 app.use("/category", require("./routes/category"));
 app.use("/sellinglists", require("./routes/sellingList"));
 app.use("/feedbacks", require("./routes/feedback"));
-//app.use("/purchaseCart", require("./routes/purchaseCart"));
-app.use(purchaseCartRoutes);
+// app.use("/purchaseCart", require("./routes/purchaseCart"));
+app.use('/purchaseCarts', purchaseCartRoutes);
 
 //     session({
 //       secret: "a super secretive secret key string to encrypt and sign the cookie",

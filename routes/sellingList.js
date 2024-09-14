@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const SellingList = require('../models/selllingList')
-const database = require('../models/database')
+const database = require("../models/database");
 
 router.get('/', async(req, res) => {
     try{

@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const Item = require('../models/item')
 const User = require('../models/user')
-const database = require('../models/database')
+const database = require("../models/database");
 // const { user } = require('pg/lib/defaults')
 
 router.get('/', async(req, res) => {

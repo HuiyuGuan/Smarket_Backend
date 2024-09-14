@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const database = require("./database")
+const database = require("./database");
 
 const category = database.define('category' ,{
     //category_id, item_id, category_name
