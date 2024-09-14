@@ -6,9 +6,5 @@
       "src": "app.js",
       "use": "@vercel/node"
     }
-  ],
-  "scripts": {
-    "build": "npm run build",
-    "install": "npm ci"
-  }
+  ]
 }
