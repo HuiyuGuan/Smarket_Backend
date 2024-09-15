@@ -81,7 +81,7 @@ router.get('/orders/:order_id', async (req, res) => {
     const orderDetails = await Order.findOne({
       where: { order_id: orderId },
     });
-
+    console.log('Order Details Retrieved:', orderDetails);
 
     // If no order found, return 404
     if (!orderDetails) {
