@@ -78,23 +78,10 @@ router.get("/:username", async (req, res) => {
 router.get('/orders/:order_id', async (req, res) => {
   try {
     const orderId = req.params.order_id;
-
-    // Fetch the order along with its associated order items and related items
     const orderDetails = await Order.findOne({
       where: { order_id: orderId },
-      include: [
-        {
-          model: OrderItems,   // Include OrderItems in the response
-          as: 'orderItems',    // Ensure this alias matches your association setup
-          include: [
-            {
-              model: Item,    // Include Item model inside each OrderItem
-              as: 'item',     // Ensure this alias matches your association setup
-            },
-          ],
-        },
-      ],
     });
+
 
     // If no order found, return 404
     if (!orderDetails) {
