@@ -76,6 +76,22 @@ router.delete("/:username/:item_id", async (req, res) => {
   }
 });
 
+router.delete('/clear', async (req, res) => {
+  const { username } = req.body;
+
+  try {
+    const deleted = await PurchaseCart.destroy({ where: { username } });
+
+    if (deleted) {
+      res.status(200).json({ message: `Cleared all items for user ${username} from the cart.` });
+    } else {
+      res.status(404).json({ message: `No items found in the cart for user ${username}.` });
+    }
+  } catch (error) {
+    res.status(500).send("Error clearing cart: " + error.message);
+  }
+});
+
 // POST route to add an item to the purchase cart
 router.post('/', async (req, res) => {
   const { username, item_id, item_name, item_price, item_image, quantity } = req.body;
