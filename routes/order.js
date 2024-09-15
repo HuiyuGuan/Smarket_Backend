@@ -85,11 +85,11 @@ router.get('/orders/:order_id', async (req, res) => {
       include: [
         {
           model: OrderItems,   // Include OrderItems in the response
-          as: 'orderItems',    // Make sure this alias matches your association setup
+          as: 'orderItems',    // Ensure this alias matches your association setup
           include: [
             {
               model: Item,    // Include Item model inside each OrderItem
-              as: 'item',     // Make sure this alias matches your association setup
+              as: 'item',     // Ensure this alias matches your association setup
             },
           ],
         },
@@ -108,6 +108,7 @@ router.get('/orders/:order_id', async (req, res) => {
     res.status(500).json({ error: 'Error fetching order details' });
   }
 });
+
 
 // const orderDetails = await Order.findOne({
 //   where: { order_id: 1 },
