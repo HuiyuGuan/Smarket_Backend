@@ -29,7 +29,7 @@ require("dotenv").config();
 // });
 const database_URL =
   process.env.DATABASE_URL ||
-  "postgresql://postgres:hffqcqdEa3OOi2Sx@db.ezqevqcqorksmcifhnom.supabase.co:5432/postgres";
+  "postgres://postgres:sql@localhost:5432/capstone_backend?sslmode=disable";
 
 const database = new Sequelize(database_URL, {
   dialect: "postgres",
