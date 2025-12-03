@@ -1,7 +1,7 @@
 //const { password } = require("pg/lib/defaults");
 const Sequelize = require("sequelize");
 const pkg = require("../package.json");
-
+require("dotenv").config();
 // const database = new Sequelize(
 //   // postgres://myuser:mypassword@myhost:5432/mydatabasename
 //   process.env.DATABASE_URL ||
@@ -29,7 +29,7 @@ const pkg = require("../package.json");
 // });
 const database_URL =
   process.env.DATABASE_URL ||
-  "postgres://postgres:sql@localhost:5432/capstone_backend?sslmode=disable";
+  "postgresql://postgres:hffqcqdEa3OOi2Sx@db.ezqevqcqorksmcifhnom.supabase.co:5432/postgres";
 
 const database = new Sequelize(database_URL, {
   dialect: "postgres",
