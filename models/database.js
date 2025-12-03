@@ -44,5 +44,5 @@ database
   .catch((err) => {
     console.error("Unable to connect to the database:", err);
   });
-
+console.log("DATABASE_URL =", process.env.DATABASE_URL);
 module.exports = database;
