@@ -31,12 +31,10 @@ const database_URL =
   process.env.DATABASE_URL ||
   "postgres://postgres:sql@localhost:5432/capstone_backend?sslmode=disable";
 
-const database = new Sequelize(database_URL, {
+const database = new Sequelize(process.env.DATABASE_URL, {
   dialect: "postgres",
   logging: false,
   dialectOptions: {
-    host: new URL(database_URL).hostname,
-    port: 5432,
     ssl: { rejectUnauthorized: false },
     family: 4,
   },
