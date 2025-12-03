@@ -36,7 +36,6 @@ const database = new Sequelize(process.env.DATABASE_URL, {
   logging: false,
   dialectOptions: {
     ssl: { rejectUnauthorized: false },
-    family: 4,
   },
 });
 
